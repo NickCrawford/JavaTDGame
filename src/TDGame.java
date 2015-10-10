@@ -6,7 +6,7 @@ public class TDGame {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("TDGame"); //Create a JFrame Object and set its options
-		frame.setSize(800, 600);
+		frame.setSize(960, 640);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		

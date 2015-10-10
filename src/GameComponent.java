@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -7,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,10 +34,19 @@ public class GameComponent extends JComponent implements MouseListener {
 	private ArrayList<Image> tiles = new ArrayList<Image>();
 	
 	//mouse coordinates
-	private int mousex, mousey;
+	private int mousex, mousey;//The mouse's position on the JComponent's screen coordinate system.
+	private int mouseXWorld, mouseYWorld; //The mouse position in the world's coordinate system
 	
 	//Game status
-	private int status; //0-Defense, 1-Offense, 2- play
+	private int status; //0-Defense, 1-Offense, 2- playing
+	private int roundNum;
+	
+	//Player Settings
+	private int offenseCredits;
+	private int defenseCredits;
+	
+	//Fonts
+	private Font hudFont;
 	
 	public GameComponent(long curTime) {
 		this.curTime = curTime;
@@ -55,6 +66,23 @@ public class GameComponent extends JComponent implements MouseListener {
 		mousey = 0;
 		
 		status = DEFENSE;
+		roundNum = 1;
+		
+		offenseCredits = 3;
+		defenseCredits = 3;
+		
+		initFonts();
+		
+	}
+	
+	private void initFonts() {
+		try {
+			hudFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/HUD.ttf")).deriveFont(14f);
+		} catch (FontFormatException | IOException e) {
+			System.out.println("Couldnt find 'HUD.ttf'");
+			hudFont = new Font("Verdana", Font.PLAIN, 16);
+		}
+		
 	}
 	
 	private void initTiles() {
@@ -80,12 +108,6 @@ public class GameComponent extends JComponent implements MouseListener {
 		
 		AffineTransform saveAt = g2.getTransform();
 		g2.translate(-cam.getCenterX()+cam.getWidth()/2, -cam.getCenterY()+cam.getHeight()/2);
-		
-		//Calculate mouse in world space
-		int mouseXWorld = mousex + cam.getCenterX()-cam.getWidth()/2;
-		int mouseYWorld = mousey + cam.getCenterY()-cam.getHeight()/2;
-		
-		int z = 0;
 		
 		//Iterate through tile array
 		for(int x=0; x < boardMap.length; x++) {
@@ -120,21 +142,28 @@ public class GameComponent extends JComponent implements MouseListener {
 		g2.setColor(Color.BLACK);
 		g2.drawString("X: "+mouseXWorld+" Y: "+mouseYWorld, mousex, mousey);
 		
-		g2.setColor(Color.WHITE);
-		g2.setFont(new Font("Verdana", Font.BOLD, 12));
+		g2.setFont(hudFont.deriveFont(22f));
 		
 		String statusString;
 		switch(status) {
 			case DEFENSE: statusString = "Defense";
+						  g2.setColor(Color.BLUE);
 			break;
 			case OFFENSE: statusString = "Offense";
+						  g2.setColor(Color.RED);
 			break;
 			case PLAYING: statusString = "Play";
+					 	  g2.setColor(Color.WHITE);
 			break;
 			default: statusString = "?";
 			break;
 		}
-		g2.drawString(statusString, this.getWidth()/2, this.getHeight()/2);
+		g2.drawString(statusString, 16, 32);
+		
+		g2.setColor(Color.WHITE);
+		g2.setFont(hudFont);
+		
+		g2.drawString("Round "+roundNum, 16, 54);
 		
 		
 
@@ -152,7 +181,13 @@ public class GameComponent extends JComponent implements MouseListener {
 		if (this.getMousePosition() != null) {
 			mousex = this.getMousePosition().x;
 			mousey = this.getMousePosition().y;
+			
+			//Calculate mouse in world space
+			mouseXWorld = mousex + cam.getCenterX()-cam.getWidth()/2;
+			mouseYWorld = mousey + cam.getCenterY()-cam.getHeight()/2;
+			
 		}
+		
 		cam.setSize(this.getWidth(), this.getHeight());
 		cam.update(mousex, mousey, elapsedTime);
 		
@@ -172,7 +207,13 @@ public class GameComponent extends JComponent implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
+		if (status == DEFENSE) {
+			int gridSpaceX = mouseXWorld / GRID_SIZE;
+			int gridSpaceY = mouseYWorld / GRID_SIZE;
+			
+			gameObjects.add(new WeakTower(gridSpaceX * GRID_SIZE, gridSpaceY * GRID_SIZE));
+		}
 
 	}
 
