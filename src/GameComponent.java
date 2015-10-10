@@ -29,6 +29,7 @@ public class GameComponent extends JComponent implements MouseListener {
 	
 	private ArrayList<GameObject> gameObjects; //Arraylist of GameObjects in the foreground
 	private Camera cam;
+	private DefenseMenu dMenu;
 	
 	private int[][] boardMap; //2D array of ints that represent board tiles.
 	private ArrayList<Image> tiles = new ArrayList<Image>();
@@ -61,6 +62,7 @@ public class GameComponent extends JComponent implements MouseListener {
 		gameObjects.add(testTower);
 		
 		cam = new Camera((boardMap.length*GRID_SIZE)/2, (boardMap[0].length*GRID_SIZE)/2);
+		dMenu = new DefenseMenu();
 		
 		mousex = 0;
 		mousey = 0;
@@ -138,6 +140,7 @@ public class GameComponent extends JComponent implements MouseListener {
 		}
 	
 		cam.draw(g2); //Draw the camera
+		dMenu.draw(g2);
 		
 		g2.setTransform(saveAt);
 		
@@ -192,7 +195,11 @@ public class GameComponent extends JComponent implements MouseListener {
 		}
 		
 		cam.setSize(this.getWidth(), this.getHeight());
-		cam.update(mousex, mousey, elapsedTime);
+		
+		if (!dMenu.isVisible()) cam.update(mousex, mousey, elapsedTime);
+		
+		dMenu.setBounds(cam.getCenterX()-cam.getWidth()/2, cam.getCenterY()-cam.getHeight()/2, cam.getWidth(), cam.getHeight());
+		dMenu.update(elapsedTime);
 		
 		if(status == DEFENSE) {
 			
