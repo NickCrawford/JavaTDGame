@@ -3,12 +3,17 @@ public abstract class Units extends GameObject
 {
 	protected int speed;//pixel(s) per frame
 	
-	public int getXPos()
+	public Units()
+	{
+		super();
+	}
+	
+ 	public int getXPos()//Not completely necessary
 	{
 		return super.x;
 	}
 	
-	public int getYPos()
+	public int getYPos()//Not completely necessary
 	{
 		return super.y;
 	}
@@ -18,18 +23,13 @@ public abstract class Units extends GameObject
 		return speed;
 	}
 	
-	public double update(long elapsedTime, int spd)
+	public void update(/*long elapsedTime, int spd*/)
 	{
-		double updateMotion = (spd * elapsedTime)/100;
-		return updateMotion;
+		
 	}
 	
 	public void move()
 	{
-		while(//on screen)
-		{
-					
-		}
 				
 	}
 }

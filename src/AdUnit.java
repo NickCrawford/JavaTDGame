@@ -6,6 +6,7 @@ public class AdUnit extends Units
 		super.x = xPos;
 		super.y = yPos;
 		super.speed = 2;
+		
 	}
 	public void AdUnitMove()
 	{
