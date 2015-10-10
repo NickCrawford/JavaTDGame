@@ -18,7 +18,6 @@ public abstract class GameObject
 		this.x = x;//set position
 		this.y = y;
 		
-		this.sprite = initSprite(fileName, rows, columns, size);
 	}
 	
 	/** Method used to load an sprite sheet and splice it into seperate images. Then returns and arraylist of images.
@@ -28,7 +27,7 @@ public abstract class GameObject
 	 * @param size the size of each image in the sprite sheet (a square)
 	 * @return
 	 */
-	private ArrayList<Image> initSprite(String fileName, int rows, int columns, int size) {
+	protected ArrayList<Image> initSprite(String fileName, int rows, int columns, int size) {
 		ArrayList<Image> sprite = new ArrayList<Image>();//Initialize sprite arraylist
 		
 		BufferedImageLoader loader = new BufferedImageLoader();
@@ -36,7 +35,8 @@ public abstract class GameObject
 		try {
 			spriteSheet = loader.loadImage(fileName);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Couldn't read file: "+fileName);
+			return null;
 		}
 		SpriteSheet ss = new SpriteSheet(spriteSheet);
 

@@ -37,6 +37,9 @@ public class GameComponent extends JComponent implements MouseListener {
 		
 		gameObjects = new ArrayList<GameObject>();
 		
+		WeakTower testTower = new WeakTower(128,256);
+		gameObjects.add(testTower);
+		
 		cam = new Camera((boardMap.length*GRID_SIZE)/2, (boardMap[0].length*GRID_SIZE)/2);
 		
 		mousex = 0;
@@ -71,22 +74,15 @@ public class GameComponent extends JComponent implements MouseListener {
 		//Iterate through tile array
 		for(int x=0; x < boardMap.length; x++) {
 			for(int y=0; y < boardMap[x].length; y++) {
-				switch(boardMap[x][y]) {
-				case 0: imageIndex = 0;
-					break;
-				case 1: imageIndex = 1;
-					break;
-				case 2: imageIndex = 2;
-					break;
-				case 3: imageIndex = 3;
-					break;
-				default: imageIndex = -1;
-					break;
-				}
-				g2.drawImage(tiles.get(imageIndex), y*GRID_SIZE, x*GRID_SIZE, null);
+				g2.drawImage(tiles.get(boardMap[x][y]), y*GRID_SIZE, x*GRID_SIZE, null);
 			}
 		}
 
+		//draw each GameObject
+		for(GameObject obj: gameObjects) {
+			obj.draw(g2);
+		}
+		
 		//draw grid
 		g2.setColor(Color.GRAY);
 		for(int i = 0; i < this.getWidth(); i += GRID_SIZE) {//columns
