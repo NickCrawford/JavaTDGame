@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -18,6 +19,8 @@ public class GameComponent extends JComponent implements MouseListener {
 	
 	public GameComponent(long curTime) {
 		this.curTime = curTime;
+		
+		boardMap = TEST_MAP;
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -25,7 +28,7 @@ public class GameComponent extends JComponent implements MouseListener {
 		
 
 	}
-	
+
 	public void update(long nextCurTime) {
 		long elapsedTime = nextCurTime - curTime;
 		
@@ -62,4 +65,11 @@ public class GameComponent extends JComponent implements MouseListener {
 
 	}
 
+	
+	public static final int[][] TEST_MAP = {
+		{1,1,0,1,1},
+		{1,1,0,1,1},
+		{1,1,0,1,1},
+		{1,1,0,1,1}
+	};
 }
