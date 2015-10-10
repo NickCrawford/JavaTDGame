@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 
 public class TDGame {
 
-	public static final long DELAY = 100; //Miliseconds to wait between game updates
+	public static final double DELAY = 30.0; //Miliseconds to wait between game updates
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("TDGame"); //Create a JFrame Object and set its options
@@ -19,10 +19,12 @@ public class TDGame {
 		frame.setVisible(true);
 		
 		while(true) {
+			curTime = System.currentTimeMillis();
+			game.update(curTime);
 			
 			frame.repaint();
 			try {
-				Thread.sleep(DELAY);
+				Thread.sleep((long) DELAY);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

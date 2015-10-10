@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,6 +25,8 @@ public class GameComponent extends JComponent implements MouseListener {
 	private int[][] boardMap; //2D array of ints that represent board tiles.
 	private ArrayList<Image> tiles = new ArrayList<Image>();
 	
+	//mouse coordinates
+	private int mousex, mousey;
 	
 	public GameComponent(long curTime) {
 		this.curTime = curTime;
@@ -32,7 +35,12 @@ public class GameComponent extends JComponent implements MouseListener {
 
 		initTiles();
 		
+		gameObjects = new ArrayList<GameObject>();
+		
 		cam = new Camera((boardMap.length*GRID_SIZE)/2, (boardMap[0].length*GRID_SIZE)/2);
+		
+		mousex = 0;
+		mousey = 0;
 	}
 	
 	private void initTiles() {
@@ -55,6 +63,9 @@ public class GameComponent extends JComponent implements MouseListener {
 	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g; //Cast to Graphics 2D
+		
+		AffineTransform saveAt = g2.getTransform();
+		g2.translate(-cam.getCenterX()+cam.getWidth()/2, -cam.getCenterY()+cam.getHeight()/2);
 		
 		int imageIndex = 0;
 		//Iterate through tile array
@@ -85,16 +96,24 @@ public class GameComponent extends JComponent implements MouseListener {
 			g2.drawLine(0, j, this.getWidth(), j);
 		}
 		
+	
 		cam.draw(g2); //Draw the camera
+		
+		g2.setTransform(saveAt);
 
 	}
 
 	public void update(long nextCurTime) {
 		long elapsedTime = nextCurTime - curTime;
-		
 		for(GameObject obj: gameObjects) {
 			obj.update(elapsedTime);
 		}
+		
+		//Get mouse position, pass to camera for movement
+		mousex = this.getMousePosition().x;
+		mousey = this.getMousePosition().y;
+		cam.setSize(this.getWidth(), this.getHeight());
+		cam.update(mousex, mousey, elapsedTime);
 		
 		curTime = nextCurTime;
 	}
