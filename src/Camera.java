@@ -27,15 +27,21 @@ public class Camera {
 	public void update(int mousex, int mousey, long elapsedTime) {
 		//Check mouse
 		if (mousex < MOVE_MARGIN) {
-			bounds.translate(-(int) ((moveSpeed*elapsedTime)/TDGame.DELAY), 0);
+			double speed = (MOVE_MARGIN - mousex)/(double) MOVE_MARGIN * moveSpeed;  //smooth movement
+			bounds.translate(-(int) ((speed*elapsedTime)/TDGame.DELAY), 0); //move left
+			
 		} else if (mousex > getWidth()-MOVE_MARGIN) {
-			bounds.translate((int) ((moveSpeed*elapsedTime)/TDGame.DELAY), 0);
+			double speed = (mousex - (getWidth()-MOVE_MARGIN))/(double) MOVE_MARGIN * moveSpeed;
+			bounds.translate((int) ((speed*elapsedTime)/TDGame.DELAY), 0);//move right
 		}
 		
 		if (mousey < MOVE_MARGIN) {
-			bounds.translate(0,-(int) ((moveSpeed*elapsedTime)/TDGame.DELAY));
+			double speed = (MOVE_MARGIN - mousey)/(double) MOVE_MARGIN * moveSpeed;  //smooth movement
+			bounds.translate(0,-(int) ((speed*elapsedTime)/TDGame.DELAY));//move up
+			
 		} else if (mousey > getHeight()-MOVE_MARGIN) {
-			bounds.translate(0, (int) ((moveSpeed*elapsedTime)/TDGame.DELAY));
+			double speed = (mousey - (getHeight()-MOVE_MARGIN))/(double) MOVE_MARGIN * moveSpeed;
+			bounds.translate(0, (int) ((speed*elapsedTime)/TDGame.DELAY));//move down
 		}
 	}
 	
