@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -17,6 +18,11 @@ public class GameComponent extends JComponent implements MouseListener {
 
 	public static final int GRID_SIZE = 64; //width/height of grid squres on map
 	
+	//static ints used for easy game status management.
+	public static final int DEFENSE = 0;
+	public static final int OFFENSE = 1;
+	public static final int PLAYING = 2;
+	
 	private long curTime;
 	
 	private ArrayList<GameObject> gameObjects; //Arraylist of GameObjects in the foreground
@@ -27,6 +33,9 @@ public class GameComponent extends JComponent implements MouseListener {
 	
 	//mouse coordinates
 	private int mousex, mousey;
+	
+	//Game status
+	private int status; //0-Defense, 1-Offense, 2- play
 	
 	public GameComponent(long curTime) {
 		this.curTime = curTime;
@@ -44,6 +53,8 @@ public class GameComponent extends JComponent implements MouseListener {
 		
 		mousex = 0;
 		mousey = 0;
+		
+		status = DEFENSE;
 	}
 	
 	private void initTiles() {
@@ -70,7 +81,12 @@ public class GameComponent extends JComponent implements MouseListener {
 		AffineTransform saveAt = g2.getTransform();
 		g2.translate(-cam.getCenterX()+cam.getWidth()/2, -cam.getCenterY()+cam.getHeight()/2);
 		
-		int imageIndex = 0;
+		//Calculate mouse in world space
+		int mouseXWorld = mousex + cam.getCenterX()-cam.getWidth()/2;
+		int mouseYWorld = mousey + cam.getCenterY()-cam.getHeight()/2;
+		
+		int z = 0;
+		
 		//Iterate through tile array
 		for(int x=0; x < boardMap.length; x++) {
 			for(int y=0; y < boardMap[x].length; y++) {
@@ -83,24 +99,51 @@ public class GameComponent extends JComponent implements MouseListener {
 			obj.draw(g2);
 		}
 		
-		//draw grid
-		g2.setColor(Color.GRAY);
-		for(int i = 0; i < this.getWidth(); i += GRID_SIZE) {//columns
-			g2.drawLine(i, 0, i, this.getHeight());
+		g2.setColor(new Color(255,255,255, 128));
+		//Drawing highlights
+		for(int x=0; x < boardMap.length; x++) {
+			for(int y=0; y < boardMap[x].length; y++) {
+				//Highlighting tiles
+				if (mouseYWorld >= y*GRID_SIZE && mouseYWorld < (y+1)*GRID_SIZE) {
+					if (mouseXWorld >= x*GRID_SIZE && mouseXWorld < (x+1)*GRID_SIZE) {//check if mouse is within x bounds
+						g2.fillRect(x*GRID_SIZE, y*GRID_SIZE, GRID_SIZE, GRID_SIZE);
+					}
+				}
+			}
 		}
-		for(int j = 0; j < this.getHeight(); j += GRID_SIZE) {//rows
-			g2.drawLine(0, j, this.getWidth(), j);
-		}
-		
 	
 		cam.draw(g2); //Draw the camera
 		
 		g2.setTransform(saveAt);
+		
+		//GUI
+		g2.setColor(Color.BLACK);
+		g2.drawString("X: "+mouseXWorld+" Y: "+mouseYWorld, mousex, mousey);
+		
+		g2.setColor(Color.WHITE);
+		g2.setFont(new Font("Verdana", Font.BOLD, 12));
+		
+		String statusString;
+		switch(status) {
+			case DEFENSE: statusString = "Defense";
+			break;
+			case OFFENSE: statusString = "Offense";
+			break;
+			case PLAYING: statusString = "Play";
+			break;
+			default: statusString = "?";
+			break;
+		}
+		g2.drawString(statusString, this.getWidth()/2, this.getHeight()/2);
+		
+		
 
 	}
 
 	public void update(long nextCurTime) {
 		long elapsedTime = nextCurTime - curTime;
+		////
+		
 		for(GameObject obj: gameObjects) {
 			obj.update(elapsedTime);
 		}
@@ -113,6 +156,11 @@ public class GameComponent extends JComponent implements MouseListener {
 		cam.setSize(this.getWidth(), this.getHeight());
 		cam.update(mousex, mousey, elapsedTime);
 		
+		if(status == DEFENSE) {
+			
+		}
+		
+		////
 		curTime = nextCurTime;
 	}
 	

@@ -77,6 +77,8 @@ public class Camera {
 		g2.drawLine(x-16, y, x+16, y);
 		
 		g2.draw(bounds);
+		
+		g2.drawString("X: "+getCenterX()+" Y: "+getCenterY(), getCenterX()-32, getCenterY()+32);
 	}
 	
 }
