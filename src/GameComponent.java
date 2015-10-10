@@ -110,8 +110,10 @@ public class GameComponent extends JComponent implements MouseListener {
 		}
 		
 		//Get mouse position, pass to camera for movement
-		mousex = this.getMousePosition().x;
-		mousey = this.getMousePosition().y;
+		if (this.getMousePosition() != null) {
+			mousex = this.getMousePosition().x;
+			mousey = this.getMousePosition().y;
+		}
 		cam.setSize(this.getWidth(), this.getHeight());
 		cam.update(mousex, mousey, elapsedTime);
 		

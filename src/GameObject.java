@@ -3,9 +3,12 @@ import java.awt.Graphics2D;
 public abstract class GameObject
 {
 	
-	private int x;
+	private int x, y; //The top left corner of the game object
 	
-	private int y;
+	public GameObject(int x, int y) {
+		this.x = x;//set position
+		this.y = y;
+	}
 	
 	public int getX()
 	{
