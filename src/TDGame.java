@@ -10,10 +10,12 @@ public class TDGame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		
-//		GameComponent game = new GameComponent(curTime);
+		long curTime = System.currentTimeMillis();
 		
-//		frame.addMouseListener(game);
-//		frame.add(game);
+		GameComponent game = new GameComponent(curTime);
+		
+		frame.addMouseListener(game);
+		frame.add(game);
 		frame.setVisible(true);
 		
 		while(true) {
