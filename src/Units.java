@@ -6,7 +6,7 @@ public abstract class Units
 	
 	int yPos = 0;
 	
-	int speed = 0;
+	int speed = 0;//pixel(s) per second
 	
 	public int getXPos()
 	{
@@ -23,8 +23,10 @@ public abstract class Units
 		return speed;
 	}
 	
-	
-	
+	public void move()
+	{
+		
+	}
 	
 	
 	
