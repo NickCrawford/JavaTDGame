@@ -108,7 +108,7 @@ public class GameComponent extends JComponent implements MouseListener {
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g; //Cast to Graphics 2D
 		
-		g2.setColor(Color.BLACK);
+		g2.setColor(Color.DARK_GRAY);
 		g2.fillRect(0, 0, getWidth(), getHeight());
 		
 		AffineTransform saveAt = g2.getTransform();
@@ -223,7 +223,7 @@ public class GameComponent extends JComponent implements MouseListener {
 			int gridSpaceY = mouseYWorld / GRID_SIZE;
 			
 			if (dMenu.isVisible()) {
-				Tower tower = dMenu.getClickedItem(mouse)
+				Tower tower = dMenu.getClickedItem(mousex, mousey);
 			} else {
 				dMenu.setVisible(true);
 			}
