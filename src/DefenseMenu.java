@@ -17,7 +17,7 @@ public class DefenseMenu {
 	private Image menuImage;
 	
 	public DefenseMenu() {
-		visible = true;
+		visible = false;
 		bounds = new Rectangle();
 		
 		menuImage = null;
@@ -33,12 +33,14 @@ public class DefenseMenu {
 	}
 	
 	public void draw(Graphics2D g2) {
-		g2.setColor(new Color(0,0,0, 200));
-		g2.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-
-		g2.drawImage(menuImage, 
-				bounds.x+bounds.width/2 - menuImage.getWidth(null)/2,
-				bounds.y+bounds.height/2 - menuImage.getHeight(null)/2,  null);
+		if (visible) {
+			g2.setColor(new Color(0,0,0, 200));
+			g2.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+	
+			g2.drawImage(menuImage, 
+					bounds.x+bounds.width/2 - menuImage.getWidth(null)/2,
+					bounds.y+bounds.height/2 - menuImage.getHeight(null)/2,  null);
+		}
 		
 	}
 	

@@ -97,8 +97,8 @@ public class GameComponent extends JComponent implements MouseListener {
 		}
 		SpriteSheet ss = new SpriteSheet(spriteSheet);
 
-		for(int i = 0; i < 128; i += GRID_SIZE) {
-			for(int j = 0; j < 128; j += GRID_SIZE) {
+		for(int i = 0; i < 256; i += GRID_SIZE) {
+			for(int j = 0; j < 256; j += GRID_SIZE) {
 				tiles.add(ss.grabSprite(j,i,GRID_SIZE,GRID_SIZE));
 			}
 		}
@@ -222,6 +222,11 @@ public class GameComponent extends JComponent implements MouseListener {
 			int gridSpaceX = mouseXWorld / GRID_SIZE;
 			int gridSpaceY = mouseYWorld / GRID_SIZE;
 			
+			if (dMenu.isVisible()) {
+				Tower tower = dMenu.getClickedItem(mouse)
+			} else {
+				dMenu.setVisible(true);
+			}
 			gameObjects.add(new WeakTower(gridSpaceX * GRID_SIZE, gridSpaceY * GRID_SIZE));
 		}
 
@@ -247,10 +252,10 @@ public class GameComponent extends JComponent implements MouseListener {
 
 	
 	public static final int[][] TEST_MAP = {
-		{1,0,1,1,1},
-		{1,0,0,0,1},
-		{1,1,1,0,1},
-		{1,0,0,0,1},
-		{1,0,1,1,1}
+		{6,1,6,6,6},
+		{6,2,0,5,6},
+		{6,6,6,1,6},
+		{6,4,0,3,6},
+		{6,1,6,6,6}
 	};
 }
