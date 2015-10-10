@@ -19,9 +19,11 @@ public class GameComponent extends JComponent implements MouseListener {
 	private long curTime;
 	
 	private ArrayList<GameObject> gameObjects; //Arraylist of GameObjects in the foreground
+	private Camera cam;
 	
 	private int[][] boardMap; //2D array of ints that represent board tiles.
 	private ArrayList<Image> tiles = new ArrayList<Image>();
+	
 	
 	public GameComponent(long curTime) {
 		this.curTime = curTime;
@@ -29,6 +31,8 @@ public class GameComponent extends JComponent implements MouseListener {
 		boardMap = TEST_MAP;
 
 		initTiles();
+		
+		cam = new Camera((boardMap.length*GRID_SIZE)/2, (boardMap[0].length*GRID_SIZE)/2);
 	}
 	
 	private void initTiles() {
@@ -52,15 +56,6 @@ public class GameComponent extends JComponent implements MouseListener {
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g; //Cast to Graphics 2D
 		
-		//draw grid
-		g2.setColor(Color.GRAY);
-		for(int i = 0; i < this.getWidth(); i += GRID_SIZE) {//columns
-			g2.drawLine(i, 0, i, this.getHeight());
-		}
-		for(int j = 0; j < this.getHeight(); j += GRID_SIZE) {//rows
-			g2.drawLine(0, j, this.getWidth(), j);
-		}
-		
 		int imageIndex = 0;
 		//Iterate through tile array
 		for(int x=0; x < boardMap.length; x++) {
@@ -81,6 +76,16 @@ public class GameComponent extends JComponent implements MouseListener {
 			}
 		}
 
+		//draw grid
+		g2.setColor(Color.GRAY);
+		for(int i = 0; i < this.getWidth(); i += GRID_SIZE) {//columns
+			g2.drawLine(i, 0, i, this.getHeight());
+		}
+		for(int j = 0; j < this.getHeight(); j += GRID_SIZE) {//rows
+			g2.drawLine(0, j, this.getWidth(), j);
+		}
+		
+		cam.draw(g2); //Draw the camera
 
 	}
 
