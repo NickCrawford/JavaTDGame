@@ -3,9 +3,9 @@ public abstract class Units extends GameObject
 {
 	protected int speed;//pixel(s) per frame
 	
-	public Units()
+	public Units(int x, int y)
 	{
-		super();
+		super(x, y);
 	}
 	
  	public int getXPos()//Not completely necessary
@@ -23,10 +23,6 @@ public abstract class Units extends GameObject
 		return speed;
 	}
 	
-	public void update(/*long elapsedTime, int spd*/)
-	{
-		
-	}
 	
 	public void move()
 	{
