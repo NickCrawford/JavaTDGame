@@ -106,6 +106,9 @@ public class GameComponent extends JComponent implements MouseListener {
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g; //Cast to Graphics 2D
 		
+		g2.setColor(Color.BLACK);
+		g2.fillRect(0, 0, getWidth(), getHeight());
+		
 		AffineTransform saveAt = g2.getTransform();
 		g2.translate(-cam.getCenterX()+cam.getWidth()/2, -cam.getCenterY()+cam.getHeight()/2);
 		
