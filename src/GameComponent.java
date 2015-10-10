@@ -127,9 +127,9 @@ public class GameComponent extends JComponent implements MouseListener {
 	
 	public static final int[][] TEST_MAP = {
 		{1,0,1,1,1},
-		{1,1,0,1,1},
+		{1,0,0,0,1},
 		{1,1,1,0,1},
-		{1,1,0,1,1},
+		{1,0,0,0,1},
 		{1,0,1,1,1}
 	};
 }
