@@ -2,8 +2,7 @@ import java.awt.Graphics2D;
 
 public abstract class GameObject
 {
-	
-	private int x, y; //The top left corner of the game object
+	protected int x, y; //The top left corner of the game object
 	
 	public GameObject(int x, int y) {
 		this.x = x;//set position
@@ -20,7 +19,7 @@ public abstract class GameObject
 		return y;
 	}
 	
-	public void update(long nextCurTime)
+	public void update(long elapsedTime)
 	{
 		
 	}

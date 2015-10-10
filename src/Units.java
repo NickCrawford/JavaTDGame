@@ -1,21 +1,21 @@
 
-public abstract class Units 
+public abstract class Units extends GameObject 
 {
-
-	int xPos = 0;
+	protected int speed;//pixel(s) per frame
 	
-	int yPos = 0;
-	
-	int speed = 0;//pixel(s) per second
-	
-	public int getXPos()
+	public Units()
 	{
-		return xPos;
+		super();
 	}
 	
-	public int getYPos()
+ 	public int getXPos()//Not completely necessary
 	{
-		return yPos;
+		return super.x;
+	}
+	
+	public int getYPos()//Not completely necessary
+	{
+		return super.y;
 	}
 	
 	public int getSpeed()
@@ -23,12 +23,13 @@ public abstract class Units
 		return speed;
 	}
 	
-	public void move()
+	public void update(/*long elapsedTime, int spd*/)
 	{
 		
 	}
 	
-	
-	
-	
+	public void move()
+	{
+				
+	}
 }
