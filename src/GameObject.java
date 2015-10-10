@@ -3,9 +3,11 @@ import java.awt.Graphics2D;
 public abstract class GameObject
 {
 	
-	private int x;
+	protected int x;
 	
-	private int y;
+	protected int y;
+	
+	protected int[] mapPos;
 	
 	public int getX()
 	{
@@ -17,7 +19,12 @@ public abstract class GameObject
 		return y;
 	}
 	
-	public void update(long nextCurTime)
+	public int[] updateMapPos()
+	{
+		
+	}
+	
+	public void update(long elapsedTime)
 	{
 		
 	}
