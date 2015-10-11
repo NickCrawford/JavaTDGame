@@ -100,7 +100,7 @@ public class DefenseMenu {
 			g2.setFont(hudFont.deriveFont(18f));
 			g2.drawString("Cost", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 - MENU_V_MARGIN);
 			g2.drawString("Range", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2);
-			g2.drawString("Power", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 + MENU_V_MARGIN);
+			g2.drawString("Speed", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 + MENU_V_MARGIN);
 			
 			AffineTransform saveAt = g2.getTransform();
 			g2.setStroke(new BasicStroke(2));

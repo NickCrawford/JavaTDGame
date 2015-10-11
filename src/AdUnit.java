@@ -29,7 +29,8 @@ public class AdUnit extends Unit
 	@Override
 	public void update(long elapsedTime, int[][] boardMap,
 			ArrayList<GameObject> gameObjects) {
-		System.out.println("Update");
+		x += 1;
+		y += 1;
 		move(boardMap, elapsedTime);
 	}
 }
