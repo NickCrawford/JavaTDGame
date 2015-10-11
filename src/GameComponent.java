@@ -55,6 +55,7 @@ public class GameComponent extends JComponent implements MouseListener {
 		boardMap = TEST_MAP;
 
 		initTiles();
+		initFonts();
 		
 		gameObjects = new ArrayList<GameObject>();
 		
@@ -62,7 +63,7 @@ public class GameComponent extends JComponent implements MouseListener {
 		gameObjects.add(testTower);
 		
 		cam = new Camera((boardMap.length*GRID_SIZE)/2, (boardMap[0].length*GRID_SIZE)/2);
-		dMenu = new DefenseMenu();
+		dMenu = new DefenseMenu(hudFont);
 		
 		mousex = 0;
 		mousey = 0;
@@ -73,7 +74,7 @@ public class GameComponent extends JComponent implements MouseListener {
 		offenseCredits = 3;
 		defenseCredits = 3;
 		
-		initFonts();
+		
 		
 	}
 	
@@ -151,25 +152,31 @@ public class GameComponent extends JComponent implements MouseListener {
 		g2.setFont(hudFont.deriveFont(22f));
 		
 		String statusString;
+		int creditAmount = 0;
 		switch(status) {
 			case DEFENSE: statusString = "Defense";
 						  g2.setColor(Color.BLUE);
+						  creditAmount = defenseCredits;
 			break;
 			case OFFENSE: statusString = "Offense";
 						  g2.setColor(Color.RED);
+						  creditAmount = offenseCredits;
 			break;
-			case PLAYING: statusString = "Play";
+			case PLAYING: statusString = "";
 					 	  g2.setColor(Color.WHITE);
+					 	  creditAmount = -1;
 			break;
 			default: statusString = "?";
 			break;
 		}
-		g2.drawString(statusString, 16, 32);
+		g2.drawString(statusString + "", 16, 32);
 		
 		g2.setColor(Color.WHITE);
 		g2.setFont(hudFont);
 		
 		g2.drawString("Round "+roundNum, 16, 54);
+		
+		
 		
 		
 
@@ -199,7 +206,7 @@ public class GameComponent extends JComponent implements MouseListener {
 		if (!dMenu.isVisible()) cam.update(mousex, mousey, elapsedTime);
 		
 		dMenu.setBounds(cam.getCenterX()-cam.getWidth()/2, cam.getCenterY()-cam.getHeight()/2, cam.getWidth(), cam.getHeight());
-		dMenu.update(elapsedTime);
+		dMenu.update(elapsedTime, mouseXWorld, mouseYWorld);
 		
 		if(status == DEFENSE) {
 			
@@ -223,7 +230,7 @@ public class GameComponent extends JComponent implements MouseListener {
 			int gridSpaceY = mouseYWorld / GRID_SIZE;
 			
 			if (dMenu.isVisible()) {
-				Tower tower = dMenu.getClickedItem(mousex, mousey);
+				Tower tower = dMenu.getClickedItem(mouseXWorld, mouseYWorld);
 			} else {
 				dMenu.setVisible(true);
 			}
