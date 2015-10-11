@@ -42,17 +42,20 @@ public class WeakTower extends Tower {
 		double shortestDistanceSoFar = 10000000.0;
 		for(GameObject obj: gameObjects) {
 			if (obj instanceof Unit) {
-				double dist = Point.distance(x+size/2, y+size/2, obj.getX()+obj.getSize()/2, obj.getY()+obj.getSize()/2);
+				Unit u = (Unit) obj;
+				if (u.getHealth() > 0) {
+					double dist = Point.distance(x+size/2, y+size/2, obj.getX()+obj.getSize()/2, obj.getY()+obj.getSize()/2);
 				
-				if (dist <= shortestDistanceSoFar) {
-					if (dist <= range)  {
-						target = (Unit) obj;
-						shortestDistanceSoFar = dist;
-					} else {
-						target = null;
-						rotation = Tower.lerp((float) rotation, 90f, (float) (0.2*elapsedTime/TDGame.DELAY));
+					if (dist <= shortestDistanceSoFar) {
+						if (dist <= range)  {
+							target = (Unit) obj;
+							shortestDistanceSoFar = dist;
+						} else {
+							target = null;
+							rotation = Tower.lerp((float) rotation, 90f, (float) (0.2*elapsedTime/TDGame.DELAY));
+						}
 					}
-				}
+				}	
 			}
 		}
 
@@ -62,13 +65,13 @@ public class WeakTower extends Tower {
 		
 			if (timeSinceLastFire >= speed) {
 				timeSinceLastFire = 0;
-				bullets.add(new Bullet(this.x+size/2, this.y+size/2, range, rotation, speed, 5, 4));
+				bullets.add(new Bullet(this.x+size/2, this.y+size/2, range, rotation, speed, 4, 4));
 			}
 			
 		}
 		
 		for (Bullet b : bullets) {
-			b.update(elapsedTime);
+			b.update(elapsedTime, boardMap, gameObjects);
 		}
 		
 		timeSinceLastFire ++;

@@ -196,6 +196,18 @@ public class GameComponent extends JComponent implements MouseListener {
 		long elapsedTime = nextCurTime - curTime;
 		////
 		
+		//Get bullets
+		
+		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+		for (GameObject obj: gameObjects) {
+			if (obj instanceof WeakTower) {
+				WeakTower wt = (WeakTower) obj;
+				bullets.addAll(wt.getBullets());
+			}
+		}
+		
+		gameObjects.addAll(bullets);
+		
 		for(GameObject obj: gameObjects) {
 			obj.update(elapsedTime, boardMap, gameObjects);
 		}
@@ -250,7 +262,10 @@ public class GameComponent extends JComponent implements MouseListener {
 			} else {
 				gridSpaceX = (mouseXWorld / GRID_SIZE) * GRID_SIZE;
 				gridSpaceY = (mouseYWorld / GRID_SIZE) * GRID_SIZE;
-				dMenu.setVisible(true);
+				
+				if (boardMap[gridSpaceY/GRID_SIZE][gridSpaceX/GRID_SIZE] > FINAL_PATH_TILE) {
+					dMenu.setVisible(true);
+				}
 			}
 		}
 
@@ -276,10 +291,16 @@ public class GameComponent extends JComponent implements MouseListener {
 
 	
 	public static final int[][] TEST_MAP = {
-		{6,1,6,6,6},
-		{6,2,0,5,6},
-		{6,6,6,1,6},
-		{6,4,0,3,6},
-		{6,1,6,6,6}
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6},
+		{6,6,6,6,6,1,6,6,6,6,6}
 	};
 }

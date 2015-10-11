@@ -12,6 +12,8 @@ public class AdUnit extends Unit
 		super(x, y);
 		speed = 2;
 		
+		health = 3;//3 hits and dead!
+		
 		fileName = "Units.png";
 		rows = 2;
 		columns = 2;
@@ -20,16 +22,18 @@ public class AdUnit extends Unit
 		sprite = super.initSprite(fileName, rows, columns, size);
 	}
 
-	//render
+	@Override
 	public void draw(Graphics2D g2)
 	{
-		g2.drawImage(sprite.get(0), (int)x, (int)y, null);
+		if (health > 0) g2.drawImage(sprite.get(0), (int)x, (int)y, null);
 	}
 
 	@Override
 	public void update(long elapsedTime, int[][] boardMap,
 			ArrayList<GameObject> gameObjects) {
-		//move(boardMap, elapsedTime);
+		super.update(elapsedTime, boardMap, gameObjects);
+		
+		//y += (speed*elapsedTime)/TDGame.DELAY;
 	}
 }
 

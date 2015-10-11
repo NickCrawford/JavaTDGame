@@ -28,6 +28,7 @@ public class DefenseMenu {
 	
 	private Image menuImage;
 	private ArrayList<Image> previews;
+	private ArrayList<Tower> previewTowers;
 	
 	private Font hudFont;
 	
@@ -59,6 +60,9 @@ public class DefenseMenu {
 		} catch (IOException e) {
 			System.exit(0);
 		}
+		
+		previewTowers = new ArrayList<Tower>();
+		previewTowers.add(new WeakTower(0,0));
 		
 		
 		
@@ -103,9 +107,30 @@ public class DefenseMenu {
 				
 				Ellipse2D.Double circ = new Ellipse2D.Double();
 				circ.setFrameFromCenter(new Point2D.Double(cX, cY), new Point2D.Double(cX+PREVIEW_SIZE/2, cY+PREVIEW_SIZE/2));
+				String towerName = "Choose Tower";
 				if (circ.contains(new Point2D.Double(mousex, mousey))) {
 					g2.setColor(Color.WHITE);
+					
+					boolean showInfo = true;
+					
+					if (index == 3) {
+						showInfo = false;
+					} else {
+						showInfo = true;
+					}
+					
+					if (showInfo) {
+						g2.drawString("Cost      "+previewTowers.get(index).getCost(), bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2);
+						g2.drawString("Range     "+previewTowers.get(index).getRange(), bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 + MENU_V_MARGIN);
+						g2.drawString("Speed     "+previewTowers.get(index).getSpeed(), bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 + 2*MENU_V_MARGIN);
+					}
 				}
+				g2.setColor(Color.WHITE);
+				g2.setFont(hudFont.deriveFont(18f));
+				g2.drawString(towerName, bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 - (int) (1.4*MENU_V_MARGIN));
+				g2.fillRect(bounds.x+bounds.width/2 - 96, bounds.y+bounds.height/2 - MENU_V_MARGIN, 200, 4);
+				
+				
 				g2.fillOval((int) cX - PREVIEW_SIZE/2, (int) cY - PREVIEW_SIZE/2, PREVIEW_SIZE, PREVIEW_SIZE);
 				g2.setColor(Color.WHITE);
 				
@@ -114,14 +139,7 @@ public class DefenseMenu {
 				index++;
 			}
 			
-			g2.setColor(Color.WHITE);
-			g2.setFont(hudFont.deriveFont(18f));
-			g2.drawString("Select a", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 - 2*MENU_V_MARGIN);
-			g2.drawString("Tower", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 - (int) (1.4*MENU_V_MARGIN));
-			g2.fillRect(bounds.x+bounds.width/2 - 96, bounds.y+bounds.height/2 - MENU_V_MARGIN, 200, 4);
-			g2.drawString("Cost", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2);
-			g2.drawString("Range", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 + MENU_V_MARGIN);
-			g2.drawString("Speed", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 + 2*MENU_V_MARGIN);
+			
 			
 			AffineTransform saveAt = g2.getTransform();
 			g2.setStroke(new BasicStroke(2));
@@ -169,6 +187,8 @@ public class DefenseMenu {
 				System.out.println("Hit at option "+option);
 				switch(option) {
 				case 0: retVal = new WeakTower(0,0);
+				break;
+				case 3: visible = false;
 				break;
 				default: retVal = null;
 				break;

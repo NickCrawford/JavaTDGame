@@ -1,11 +1,15 @@
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public abstract class Unit extends GameObject 
 {
 	protected int speed;//pixel(s) per frame
-	
+	protected int health;
 	protected int lastX, lastY;
 	protected Point2D target;
 	
@@ -31,15 +35,28 @@ public abstract class Unit extends GameObject
 		return speed;
 	}
 	
-	//Recursive?
-	public boolean checkMoveTo(int[][] boardmap, int row, int col)
-	{
-		if (boardmap[row][col] <= GameComponent.FINAL_PATH_TILE) return true;
-		
-		return false;
-		
+	public int getHealth() {
+		return health;
 	}
 
+	public void checkIfHit(ArrayList<GameObject> gameObjects) {
+		for(GameObject obj: gameObjects) {
+			if(obj instanceof Bullet) {
+				Bullet b = (Bullet) obj;
+				if (new Rectangle(x,y,size,size).contains(new Point(b.getX(), b.getY())) && b.isActive() && health > 0) {
+					health --;
+					b.setActive(false);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void update(long elapsedTime, int[][] boardMap, ArrayList<GameObject> gameObjects) {
+		checkIfHit(gameObjects);
+		
+	}
+	
 	public void move(int[][] boardMap, long elapsedTime)
 	{
 		int mainX = super.x / 64;
