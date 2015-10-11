@@ -27,6 +27,7 @@ public class DefenseMenu {
 	private Rectangle bounds;
 	
 	private Image menuImage;
+	private ArrayList<Image> previews;
 	
 	private Font hudFont;
 	
@@ -45,6 +46,21 @@ public class DefenseMenu {
 		} catch (IOException e) {
 			System.exit(0);
 		}
+		
+		previews = new ArrayList<Image>();
+		try {
+		    previews.add(ImageIO.read(new File("res/WeakTower.png")));
+		} catch (IOException e) {
+			System.exit(0);
+		}
+		
+		try {
+		    previews.add(ImageIO.read(new File("res/StrongTower.png")));
+		} catch (IOException e) {
+			System.exit(0);
+		}
+		
+		
 		
 		//define stat cell shape
 		statCell = new Polygon();

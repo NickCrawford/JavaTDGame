@@ -18,7 +18,8 @@ public class WeakTower extends Tower {
 		columns = 1;
 		size = 64;
 		
-		cost = 2;
+		description = "Weak Tower";
+		cost = 1;
 		range = 128;
 		speed = 50;//wait 100 update calls before firing again
 		timeSinceLastFire = speed;
@@ -60,7 +61,7 @@ public class WeakTower extends Tower {
 		
 			if (timeSinceLastFire >= speed) {
 				timeSinceLastFire = 0;
-				bullets.add(new Bullet(this.x+size/2, this.y+size/2, range, rotation, speed));
+				bullets.add(new Bullet(this.x+size/2, this.y+size/2, range, rotation, speed, 5, 4));
 			}
 			
 		}
@@ -75,11 +76,10 @@ public class WeakTower extends Tower {
 	
 	@Override
 	public void draw(Graphics2D g2) {
-		g2.setColor(Color.PINK);
-		g2.fillRect(x,y,size,size);
+		g2.drawImage(sprite.get(0), x,y,null);
 		
 		g2.setColor(Color.WHITE);
-		g2.drawLine((int)x+size/2, (int)y+size/2,(int) (x+size/2+Math.cos(rotation*Math.PI/180)*(size/2)),(int) (y+size/2+Math.sin(rotation*Math.PI/180)*(size/2)));
+		g2.drawLine((int)x+size/2, (int)y+size/2,(int) (x+size/2+Math.cos(rotation*Math.PI/180)*(size/4)),(int) (y+size/2+Math.sin(rotation*Math.PI/180)*(size/4)));
 		
 		g2.drawOval(x-range/2-size/2, y-range/2-size/2, range*2, range*2);
 		
