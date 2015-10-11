@@ -19,6 +19,7 @@ import javax.swing.JComponent;
 public class GameComponent extends JComponent implements MouseListener {
 
 	public static final int GRID_SIZE = 64; //width/height of grid squres on map
+	public static final int FINAL_PATH_TILE = 5; //width/height of grid squres on map
 	
 	//static ints used for easy game status management.
 	public static final int DEFENSE = 0;
@@ -62,6 +63,9 @@ public class GameComponent extends JComponent implements MouseListener {
 		
 		WeakTower testTower = new WeakTower(128,256);
 		gameObjects.add(testTower);
+		
+		AdUnit testUnit = new AdUnit(1*64,4*64);
+		gameObjects.add(testUnit);
 		
 		cam = new Camera((boardMap.length*GRID_SIZE)/2, (boardMap[0].length*GRID_SIZE)/2);
 		dMenu = new DefenseMenu(hudFont);
@@ -137,7 +141,7 @@ public class GameComponent extends JComponent implements MouseListener {
 					//Highlighting tiles
 					if (mouseYWorld >= y*GRID_SIZE && mouseYWorld < (y+1)*GRID_SIZE) {
 						if (mouseXWorld >= x*GRID_SIZE && mouseXWorld < (x+1)*GRID_SIZE) {//check if mouse is within x bounds
-							if (boardMap[y][x] <= 5) g2.setColor(new Color(255,0,0, 128));
+							if (boardMap[y][x] <= FINAL_PATH_TILE) g2.setColor(new Color(255,0,0, 128));
 							else  g2.setColor(new Color(255,255,255, 128));
 							g2.fillRect(x*GRID_SIZE, y*GRID_SIZE, GRID_SIZE, GRID_SIZE);
 						}
@@ -204,8 +208,6 @@ public class GameComponent extends JComponent implements MouseListener {
 			//Calculate mouse in world space
 			mouseXWorld = mousex + cam.getCenterX()-cam.getWidth()/2;
 			mouseYWorld = mousey + cam.getCenterY()-cam.getHeight()/2;
-			
-
 			
 		}
 		

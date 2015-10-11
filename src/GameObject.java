@@ -69,6 +69,18 @@ public abstract class GameObject
 		this.y = y;
 	}
 	
+	/** Returns an integer representing the x position in the the 2D Array
+	 * 
+	 * @return the x index of the position in the boardmap array
+	 */
+	public int findGridX() {
+		return (x / GameComponent.GRID_SIZE);
+	}
+	
+	public int findGridY() {
+		return (y / GameComponent.GRID_SIZE);
+	}
+	
 	public abstract void update(long elapsedTime, int[][] boardMap, ArrayList<GameObject> gameObjects);
 	
 	public abstract void draw(Graphics2D g2);
