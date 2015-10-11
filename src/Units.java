@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public abstract class Units extends GameObject 
 {
@@ -23,9 +25,4 @@ public abstract class Units extends GameObject
 		return speed;
 	}
 	
-	
-	public void move()
-	{
-				
-	}
 }
