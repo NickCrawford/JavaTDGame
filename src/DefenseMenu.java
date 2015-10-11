@@ -12,6 +12,7 @@ import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -78,10 +79,11 @@ public class DefenseMenu {
 					bounds.y+bounds.height/2 - menuImage.getHeight(null)/2,  null);
 			
 			//draw preview circles
-			for(double i=Math.PI/2; i < 5*Math.PI/2; i += Math.PI/3) {
+			int option = 0;
+			for(double i=Math.PI/2; i < 13*Math.PI/6 ; i += Math.PI/3) {
 				g2.setColor(Color.DARK_GRAY);
 				double cX = bounds.x+bounds.width/2+(Math.cos(i)*menuImage.getWidth(null)/3.2);
-				double cY = bounds.y+bounds.height/2+(Math.sin(i)*menuImage.getHeight(null)/3.2);
+				double cY = bounds.y+bounds.height/2+(-Math.sin(i)*menuImage.getHeight(null)/3.2);
 				
 				Ellipse2D.Double circ = new Ellipse2D.Double();
 				circ.setFrameFromCenter(new Point2D.Double(cX, cY), new Point2D.Double(cX+PREVIEW_SIZE/2, cY+PREVIEW_SIZE/2));
@@ -89,6 +91,9 @@ public class DefenseMenu {
 					g2.setColor(Color.WHITE);
 				}
 				g2.fillOval((int) cX - PREVIEW_SIZE/2, (int) cY - PREVIEW_SIZE/2, PREVIEW_SIZE, PREVIEW_SIZE);
+				g2.setColor(Color.WHITE);
+				g2.drawString(""+option, (int)cX,(int) cY);
+				option ++;
 			}
 			
 			g2.setColor(Color.WHITE);
@@ -125,12 +130,34 @@ public class DefenseMenu {
 	}
 
 	public Tower getClickedItem(int mousex, int mousey) {
+		Tower retVal = null; ///The tower to return
+		
 		Polygon clone = new Polygon(menuMask.xpoints, menuMask.ypoints, menuMask.npoints);
 		clone.translate(bounds.x+bounds.width/2 - menuImage.getWidth(null)/2,
 				bounds.y+bounds.height/2 - menuImage.getHeight(null)/2);
-		if (!clone.contains(mousex, mousey)) visible = false;
+		if (!clone.contains(mousex, mousey)) visible = false; //Exit out of menu if mouse click isnt inside hexagon
 		
-		return null;
+		int option = 0;
+		for(double i=Math.PI/2; i < 13*Math.PI/6; i += Math.PI/3) {
+			double cX = bounds.x+bounds.width/2+(Math.cos(i)*menuImage.getWidth(null)/3.2);
+			double cY = bounds.y+bounds.height/2+(-Math.sin(i)*menuImage.getHeight(null)/3.2);
+			
+			Ellipse2D.Double circ = new Ellipse2D.Double();
+			circ.setFrameFromCenter(new Point2D.Double(cX, cY), new Point2D.Double(cX+PREVIEW_SIZE/2, cY+PREVIEW_SIZE/2));
+			if (circ.contains(new Point2D.Double(mousex, mousey))) {
+				System.out.println("Hit at option "+option);
+				switch(option) {
+				case 0: retVal = new WeakTower(0,0);
+				break;
+				default: retVal = null;
+				break;
+				}
+				
+			}
+			option++;
+		}
+		
+		return retVal;
 	}
 	
 	

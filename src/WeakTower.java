@@ -10,6 +10,7 @@ public class WeakTower extends Tower {
 		rows = 1;
 		columns = 1;
 		size = 64;
+		cost = 2;
 		sprite = super.initSprite(fileName, rows, columns, size);
 		
 	}

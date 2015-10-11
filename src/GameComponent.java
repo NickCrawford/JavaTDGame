@@ -37,6 +37,7 @@ public class GameComponent extends JComponent implements MouseListener {
 	//mouse coordinates
 	private int mousex, mousey;//The mouse's position on the JComponent's screen coordinate system.
 	private int mouseXWorld, mouseYWorld; //The mouse position in the world's coordinate system
+	private int gridSpaceX, gridSpaceY;
 	
 	//Game status
 	private int status; //0-Defense, 1-Offense, 2- playing
@@ -199,6 +200,8 @@ public class GameComponent extends JComponent implements MouseListener {
 			mouseXWorld = mousex + cam.getCenterX()-cam.getWidth()/2;
 			mouseYWorld = mousey + cam.getCenterY()-cam.getHeight()/2;
 			
+
+			
 		}
 		
 		cam.setSize(this.getWidth(), this.getHeight());
@@ -226,15 +229,22 @@ public class GameComponent extends JComponent implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 		
 		if (status == DEFENSE) {
-			int gridSpaceX = mouseXWorld / GRID_SIZE;
-			int gridSpaceY = mouseYWorld / GRID_SIZE;
 			
 			if (dMenu.isVisible()) {
 				Tower tower = dMenu.getClickedItem(mouseXWorld, mouseYWorld);
+				if (tower != null) {
+					System.out.println(mouseXWorld+","+gridSpaceY);
+					tower.setX(gridSpaceX);
+					tower.setY(gridSpaceY);
+					gameObjects.add(tower);
+					defenseCredits -= tower.getCost();
+					dMenu.setVisible(false);
+				}
 			} else {
+				gridSpaceX = (mouseXWorld / GRID_SIZE) * GRID_SIZE;
+				gridSpaceY = (mouseYWorld / GRID_SIZE) * GRID_SIZE;
 				dMenu.setVisible(true);
 			}
-			gameObjects.add(new WeakTower(gridSpaceX * GRID_SIZE, gridSpaceY * GRID_SIZE));
 		}
 
 	}
