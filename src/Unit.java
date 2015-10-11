@@ -41,35 +41,6 @@ public abstract class Unit extends GameObject
 	}
 
 	public void move(int[][] boardMap, long elapsedTime) {
-		int myX = super.findGridX();
-		int myY = super.findGridY();
 		
-		switch (boardMap[myY][myX]) {
-		case 0: //if on a horizontal piece
-			//We only need to check X directions
-			if (lastX < myX) { //If I just came from a space to my left
-				x += (speed * elapsedTime)/TDGame.DELAY;//then I must be moving to the right
-			} else {
-				x -= (speed * elapsedTime)/TDGame.DELAY; //Otherwise, move to the left
-			}
-		break;
-		case 1: //if on a Vertical piece
-			//We only need to check Y directions
-			if (lastY < myY) { //If I just came from a space below me
-				y -= (speed * elapsedTime)/TDGame.DELAY;//then I must be moving up
-			} else {
-				y += (speed * elapsedTime)/TDGame.DELAY; //Otherwise, move to the left
-			}
-		break;
-		case 2: //if on a L Corner Piece
-			//We only need to check up and right directions
-			if (lastY < myY) { 
-				y += (speed * elapsedTime)/TDGame.DELAY;
-			} else {
-				x += (speed * elapsedTime)/TDGame.DELAY;
-			}
-		break;
-			
-		}
 	}
 }

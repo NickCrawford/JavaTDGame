@@ -19,7 +19,8 @@ public class WeakTower extends Tower {
 	@Override
 	public void update(long elapsedTime, int[][] boardMap,
 			ArrayList<GameObject> gameObjects) {
-		// TODO Auto-generated method stub
+		
+		///
 		
 	}
 
