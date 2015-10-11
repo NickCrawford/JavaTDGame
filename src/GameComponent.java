@@ -128,14 +128,19 @@ public class GameComponent extends JComponent implements MouseListener {
 			obj.draw(g2);
 		}
 		
-		g2.setColor(new Color(255,255,255, 128));
-		//Drawing highlights
-		for(int x=0; x < boardMap.length; x++) {
-			for(int y=0; y < boardMap[x].length; y++) {
-				//Highlighting tiles
-				if (mouseYWorld >= y*GRID_SIZE && mouseYWorld < (y+1)*GRID_SIZE) {
-					if (mouseXWorld >= x*GRID_SIZE && mouseXWorld < (x+1)*GRID_SIZE) {//check if mouse is within x bounds
-						g2.fillRect(x*GRID_SIZE, y*GRID_SIZE, GRID_SIZE, GRID_SIZE);
+		
+		if (status == DEFENSE) {
+			g2.setColor(new Color(255,255,255, 128));
+			//Drawing highlights
+			for(int x=0; x < boardMap.length; x++) {
+				for(int y=0; y < boardMap[x].length; y++) {
+					//Highlighting tiles
+					if (mouseYWorld >= y*GRID_SIZE && mouseYWorld < (y+1)*GRID_SIZE) {
+						if (mouseXWorld >= x*GRID_SIZE && mouseXWorld < (x+1)*GRID_SIZE) {//check if mouse is within x bounds
+							if (boardMap[y][x] <= 5) g2.setColor(new Color(255,0,0, 128));
+							else  g2.setColor(new Color(255,255,255, 128));
+							g2.fillRect(x*GRID_SIZE, y*GRID_SIZE, GRID_SIZE, GRID_SIZE);
+						}
 					}
 				}
 			}
@@ -188,7 +193,7 @@ public class GameComponent extends JComponent implements MouseListener {
 		////
 		
 		for(GameObject obj: gameObjects) {
-			obj.update(elapsedTime);
+			obj.update(elapsedTime, boardMap, gameObjects);
 		}
 		
 		//Get mouse position, pass to camera for movement

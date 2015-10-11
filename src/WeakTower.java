@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 
 public class WeakTower extends Tower {
@@ -16,7 +17,8 @@ public class WeakTower extends Tower {
 	}
 
 	@Override
-	public void update(long elapsedTime) {
+	public void update(long elapsedTime, int[][] boardMap,
+			ArrayList<GameObject> gameObjects) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -26,5 +28,6 @@ public class WeakTower extends Tower {
 		g2.setColor(Color.PINK);
 		g2.fillRect(x,y,size,size);
 	}
+
 
 }

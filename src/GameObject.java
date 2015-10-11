@@ -69,7 +69,7 @@ public abstract class GameObject
 		this.y = y;
 	}
 	
-	public abstract void update(long elapsedTime);
+	public abstract void update(long elapsedTime, int[][] boardMap, ArrayList<GameObject> gameObjects);
 	
 	public abstract void draw(Graphics2D g2);
 	
