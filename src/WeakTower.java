@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 
@@ -41,9 +42,9 @@ public class WeakTower extends Tower {
 		double shortestDistanceSoFar = 10000000.0;
 		for(GameObject obj: gameObjects) {
 			if (obj instanceof Unit) {
-				double dist = Point.distance(x+size/2, y+size/2, obj.getX(), obj.getY());
+				double dist = Point.distance(x+size/2, y+size/2, obj.getX()+obj.getSize()/2, obj.getY()+obj.getSize()/2);
 				
-				if (dist < shortestDistanceSoFar) {
+				if (dist <= shortestDistanceSoFar) {
 					if (dist <= range)  {
 						target = (Unit) obj;
 						shortestDistanceSoFar = dist;
@@ -76,12 +77,16 @@ public class WeakTower extends Tower {
 	
 	@Override
 	public void draw(Graphics2D g2) {
+		AffineTransform save = g2.getTransform();
+		g2.rotate(rotation*Math.PI/180, x+size/2, y+size/2);
 		g2.drawImage(sprite.get(0), x,y,null);
+		g2.setTransform(save);
 		
 		g2.setColor(Color.WHITE);
-		g2.drawLine((int)x+size/2, (int)y+size/2,(int) (x+size/2+Math.cos(rotation*Math.PI/180)*(size/4)),(int) (y+size/2+Math.sin(rotation*Math.PI/180)*(size/4)));
 		
-		g2.drawOval(x-range/2-size/2, y-range/2-size/2, range*2, range*2);
+		//g2.drawLine((int)x+size/2, (int)y+size/2,(int) (x+size/2+Math.cos(rotation*Math.PI/180)*(size/4)),(int) (y+size/2+Math.sin(rotation*Math.PI/180)*(size/4)));
+		
+		//g2.drawOval(x-range/2-size/2, y-range/2-size/2, range*2, range*2);
 		
 		for(Bullet b: bullets) {
 			b.draw(g2);

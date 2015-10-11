@@ -95,7 +95,7 @@ public class DefenseMenu {
 					bounds.y+bounds.height/2 - menuImage.getHeight(null)/2,  null);
 			
 			//draw preview circles
-			int option = 0;
+			int index = 0;
 			for(double i=Math.PI/2; i < 13*Math.PI/6 ; i += Math.PI/3) {
 				g2.setColor(Color.DARK_GRAY);
 				double cX = bounds.x+bounds.width/2+(Math.cos(i)*menuImage.getWidth(null)/3.2);
@@ -108,19 +108,24 @@ public class DefenseMenu {
 				}
 				g2.fillOval((int) cX - PREVIEW_SIZE/2, (int) cY - PREVIEW_SIZE/2, PREVIEW_SIZE, PREVIEW_SIZE);
 				g2.setColor(Color.WHITE);
-				g2.drawString(""+option, (int)cX,(int) cY);
-				option ++;
+				
+				if (index < 2)
+				g2.drawImage(previews.get(index), (int) cX-previews.get(index).getWidth(null)/2, (int) cY-previews.get(index).getHeight(null)/2, null);
+				index++;
 			}
 			
 			g2.setColor(Color.WHITE);
 			g2.setFont(hudFont.deriveFont(18f));
-			g2.drawString("Cost", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 - MENU_V_MARGIN);
-			g2.drawString("Range", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2);
-			g2.drawString("Speed", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 + MENU_V_MARGIN);
+			g2.drawString("Select a", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 - 2*MENU_V_MARGIN);
+			g2.drawString("Tower", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 - (int) (1.4*MENU_V_MARGIN));
+			g2.fillRect(bounds.x+bounds.width/2 - 96, bounds.y+bounds.height/2 - MENU_V_MARGIN, 200, 4);
+			g2.drawString("Cost", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2);
+			g2.drawString("Range", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 + MENU_V_MARGIN);
+			g2.drawString("Speed", bounds.x+bounds.width/2 - 80, bounds.y+bounds.height/2 + 2*MENU_V_MARGIN);
 			
 			AffineTransform saveAt = g2.getTransform();
 			g2.setStroke(new BasicStroke(2));
-			for(int i = -1; i <= 1; i ++) {
+			for(int i = 0; i <= 2; i ++) {
 				for(int j = 0; j < 5; j++) {
 					g2.translate(bounds.x+bounds.width/2 + j*12 + 24, bounds.y+bounds.height/2 + MENU_V_MARGIN*i);
 					g2.draw(statCell);
