@@ -25,6 +25,11 @@ public abstract class Tower extends GameObject {
 	public int getRange() {
 		return range;
 	}
+	
+	public static float lerp(float a, float b, float f)
+	{
+	    return a + f * (b - a);
+	}
 
 	
 	

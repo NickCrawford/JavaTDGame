@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class WeakTower extends Tower {
 	
 	private double rotation;
+	private double timeSinceLastFire;
+	
+	private ArrayList<Bullet> bullets;
 	
 	public WeakTower(int x, int y) {
 		super(x, y);
@@ -17,10 +20,13 @@ public class WeakTower extends Tower {
 		
 		cost = 2;
 		range = 128;
-		speed = 100;//wait 100 update calls before firing again
+		speed = 50;//wait 100 update calls before firing again
+		timeSinceLastFire = speed;
 		sprite = super.initSprite(fileName, rows, columns, size);
 		
 		rotation = 0; //Rotation in degrees, (0 is right)
+		
+		bullets = new ArrayList<Bullet>();
 		
 	}
 
@@ -34,18 +40,39 @@ public class WeakTower extends Tower {
 		double shortestDistanceSoFar = 10000000.0;
 		for(GameObject obj: gameObjects) {
 			if (obj instanceof Unit) {
-				if (Point.distance(x+size/2, y+size/2, obj.getX(), obj.getY()) < shortestDistanceSoFar) {
-					target = (Unit) obj;
-					shortestDistanceSoFar = Point.distance(x, y, obj.getX(), obj.getY());
+				double dist = Point.distance(x+size/2, y+size/2, obj.getX(), obj.getY());
+				
+				if (dist < shortestDistanceSoFar) {
+					if (dist <= range)  {
+						target = (Unit) obj;
+						shortestDistanceSoFar = dist;
+					} else {
+						target = null;
+						rotation = Tower.lerp((float) rotation, 90f, (float) (0.2*elapsedTime/TDGame.DELAY));
+					}
 				}
 			}
 		}
 
+		//If there exists a target
 		if (target != null) {
-			rotation = Math.toDegrees(Math.atan2((target.getY() - y), (target.getX() - x)));
+			rotation = Math.toDegrees(Math.atan2((target.getY() - y), (target.getX() - x)));//rotate towards it
+		
+			if (timeSinceLastFire >= speed) {
+				timeSinceLastFire = 0;
+				bullets.add(new Bullet(this.x+size/2, this.y+size/2, range, rotation, speed));
+			}
+			
 		}
+		
+		for (Bullet b : bullets) {
+			b.update(elapsedTime);
+		}
+		
+		timeSinceLastFire ++;
 	}
 
+	
 	@Override
 	public void draw(Graphics2D g2) {
 		g2.setColor(Color.PINK);
@@ -53,7 +80,18 @@ public class WeakTower extends Tower {
 		
 		g2.setColor(Color.WHITE);
 		g2.drawLine((int)x+size/2, (int)y+size/2,(int) (x+size/2+Math.cos(rotation*Math.PI/180)*(size/2)),(int) (y+size/2+Math.sin(rotation*Math.PI/180)*(size/2)));
+		
+		g2.drawOval(x-range/2-size/2, y-range/2-size/2, range*2, range*2);
+		
+		for(Bullet b: bullets) {
+			b.draw(g2);
+		}
+	}
+	
+	public ArrayList<Bullet> getBullets() {
+		return bullets;
 	}
 
 
 }
+

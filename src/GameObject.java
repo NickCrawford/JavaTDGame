@@ -59,6 +59,10 @@ public abstract class GameObject
 		return y;
 	}
 	
+	public int getSize() {
+		return size;
+	}
+	
 	public void setX(int x)
 	{
 		this.x = x;
