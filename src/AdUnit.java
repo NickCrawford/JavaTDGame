@@ -33,7 +33,7 @@ public class AdUnit extends Unit
 			ArrayList<GameObject> gameObjects) {
 		super.update(elapsedTime, boardMap, gameObjects);
 		
-		//y += (speed*elapsedTime)/TDGame.DELAY;
+		y += (speed*elapsedTime)/TDGame.DELAY;
 	}
 }
 
